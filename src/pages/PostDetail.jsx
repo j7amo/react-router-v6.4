@@ -1,38 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import React from 'react';
+import { useLoaderData } from 'react-router-dom';
 
 import BlogPost from '../components/BlogPost';
 import { getPost } from '../util/api';
 
+// now when we have a working setup for using Data API of React Router v6.4
+// we can refactor this component too
 function PostDetailPage() {
-  const [error, setError] = useState();
-  const [post, setPost] = useState();
-  const [isLoading, setIsLoading] = useState(false);
+  const post = useLoaderData();
 
-  const { id } = useParams();
+  return <BlogPost title={post.title} text={post.body} />;
+}
 
-  useEffect(() => {
-    async function loadPost() {
-      setIsLoading(true);
-      try {
-        const postData = await getPost(id);
-        setPost(postData);
-      } catch (err) {
-        setError(err.message);
-      }
-      setIsLoading(false);
-    }
+// Here we have to somehow get the 'id' of the post that we want to fetch.
+// It turns out that React Router Data API automatically passes an object
+// to a user-defined loader which we pass to 'loader' prop of <Route/> component.
+// So we now just do some destructuring and get 'params' OBJECT which
+// in turn has our post 'id' property:
+export function loader({ params }) {
+  const postId = params.id;
 
-    loadPost();
-  }, [id]);
-
-  return (
-    <>
-      {isLoading && <p>Loading post...</p>}
-      {error && <p>{error.message}</p>}
-      {!error && post && <BlogPost title={post.title} text={post.body} />}
-    </>
-  );
+  return getPost(postId);
 }
 
 export default PostDetailPage;

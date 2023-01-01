@@ -7,7 +7,7 @@ import BlogLayout from './pages/BlogLayout';
 import BlogPostsPage, { loader as blogPostsLoader } from './pages/BlogPosts';
 
 import NewPostPage from './pages/NewPost';
-import PostDetailPage from './pages/PostDetail';
+import PostDetailPage, { loader as postLoader } from './pages/PostDetail';
 import WelcomePage from './pages/Welcome';
 import RootLayout from './pages/RootLayout';
 
@@ -37,7 +37,7 @@ const router = createBrowserRouter(
              function and (2)make the data returned from this function available to the
              rendered component (see the next step in BlogPostsPage.jsx ) */}
         <Route index element={<BlogPostsPage />} loader={blogPostsLoader} />
-        <Route path=":id" element={<PostDetailPage />} />
+        <Route path=":id" element={<PostDetailPage />} loader={postLoader} />
       </Route>
       <Route path="/blog/new" element={<NewPostPage />} />
     </Route>,
