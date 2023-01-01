@@ -5,7 +5,8 @@ import Posts from '../components/Posts';
 import { getPosts } from '../util/api';
 
 function BlogPostsPage() {
-  // 4) This is the next step of switching from 'old' approach:
+  // STEP 4:
+  // This is the next step of switching from 'old' approach:
   // to get the data that becomes available as a result of calling a 'loader;
   // defined for the current Route, we use a special hook - useLoaderData
   // And that's it! Or not??? Somehow it is not working...
@@ -58,8 +59,8 @@ function BlogPostsPage() {
 
 // with React Router v6.4 we can REMOVE ALL THE 'TYPICAL APPROACH' CODE!
 // instead we do the following:
-// 1) we declare a function which should either return data OR throw an error.
-// 2) we go to the current Route definition (see the next step at App.jsx)
+// STEP 1: we declare a function which should either return data OR throw an error.
+// STEP 2: we go to the current Route definition (see the next step at App.jsx)
 export function loader() {
   return getPosts();
 }
