@@ -10,6 +10,7 @@ import NewPostPage from './pages/NewPost';
 import PostDetailPage, { loader as postLoader } from './pages/PostDetail';
 import WelcomePage from './pages/Welcome';
 import RootLayout from './pages/RootLayout';
+import Error from './pages/Error';
 
 // STEP 5:
 // we have to use a new kind of router - data router,- which is
@@ -24,7 +25,15 @@ const router = createBrowserRouter(
     // -change <Routes/> component to <Route/> component
     // - set its 'path' to root path
     // - set its 'element' to element we want to render on route match
-    <Route path="/" element={<RootLayout />}>
+    // =================
+    // if we want to customize what user sees when an error occurs,
+    // we need to pass a JSX element to an 'errorElement' attribute of <Route/>
+    // and in this case React Router will render this element INSTEAD of
+    // an element which is provided with 'element' attribute.
+    // The good thing is that we can simply provide such an element
+    // on the ROOT (the TOPMOST) Route and if we have an error
+    // EVEN in some deeply NESTED route, it will BUBBLE UP to the ROOT Route
+    <Route path="/" element={<RootLayout />} errorElement={<Error />}>
       {/* STEP 7:
        - add an 'INDEX' attribute to one of the NESTED Routes to render
        a component (page) by default */}

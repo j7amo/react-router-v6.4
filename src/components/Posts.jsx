@@ -21,7 +21,7 @@ function Posts({ blogPosts }) {
 Posts.propTypes = {
   blogPosts: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired,
     }),
   ).isRequired,
