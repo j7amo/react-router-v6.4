@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import BlogLayout from './pages/BlogLayout';
-import BlogPostsPage from './pages/BlogPosts';
+import BlogPostsPage, { loader as blogPostsLoader } from './pages/BlogPosts';
+
 import NewPostPage from './pages/NewPost';
 import PostDetailPage from './pages/PostDetail';
 import RootLayout from './components/RootLayout';
@@ -15,7 +16,13 @@ function App() {
         <Routes>
           <Route path="/" element={<WelcomePage />} />
           <Route path="/blog" element={<BlogLayout />}>
-            <Route index element={<BlogPostsPage />} />
+            {/* 3) this is the next step of switching from 'old' approach for data fetching:
+             - we add our previously declared and exported 'loader' function to
+             the new 'loader' attribute of <Route/> component */}
+            {/* When React Router evaluates this Route it will (1)call the provided loader
+             function and (2)make the data returned from this function available to the
+             rendered component (see the next step in BlogPostsPage.jsx ) */}
+            <Route index element={<BlogPostsPage />} loader={blogPostsLoader} />
             <Route path=":id" element={<PostDetailPage />} />
           </Route>
           <Route path="/blog/new" element={<NewPostPage />} />
