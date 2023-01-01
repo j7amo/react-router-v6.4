@@ -5,7 +5,7 @@ import Posts from '../components/Posts';
 import { getPosts } from '../util/api';
 
 function BlogPostsPage() {
-  // STEP 4:
+  // switch-to-v6.4-STEP 4:
   // This is the next step of switching from 'old' approach:
   // to get the data that becomes available as a result of calling a 'loader;
   // defined for the current Route, we use a special hook - useLoaderData
@@ -59,8 +59,8 @@ function BlogPostsPage() {
 
 // with React Router v6.4 we can REMOVE ALL THE 'TYPICAL APPROACH' CODE!
 // instead we do the following:
-// STEP 1: we declare a function which should either return data OR throw an error.
-// STEP 2: we go to the current Route definition (see the next step at App.jsx)
+// switch-to-v6.4-STEP 1: we declare a function which should either return data OR throw an error.
+// switch-to-v6.4-STEP 2: we go to the current Route definition (see the next step at App.jsx)
 export function loader() {
   return getPosts();
 }

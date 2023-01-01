@@ -4,22 +4,22 @@ import {
 } from 'react-router-dom';
 
 import BlogLayout from './pages/BlogLayout';
-import BlogPostsPage, { loader as blogPostsLoader } from './pages/BlogPosts';
 
-import NewPostPage from './pages/NewPost';
+import NewPostPage, { action as newPostAction } from './pages/NewPost';
 import PostDetailPage, { loader as postLoader } from './pages/PostDetail';
 import WelcomePage from './pages/Welcome';
 import RootLayout from './pages/RootLayout';
 import Error from './pages/Error';
+import DeferredBlogPosts, { loader as slowPostsLoader } from './pages/DeferredBlogPosts';
 
-// STEP 5:
+// switch-to-v6.4-STEP 5:
 // we have to use a new kind of router - data router,- which is
 // compatible with the new Data API. To create it we need to use a combination of:
 // - 'createBrowserRouter' function which accepts Routes
 // - 'createRoutesFromElements' function which creates Routes from Elements
 const router = createBrowserRouter(
   createRoutesFromElements(
-    //   STEP 6:
+    //   switch-to-v6.4-STEP 6:
     // - remove all Routes definitions from 'App' function
     // - pass them to 'createRoutesFromElements'
     // -change <Routes/> component to <Route/> component
@@ -34,27 +34,43 @@ const router = createBrowserRouter(
     // on the ROOT (the TOPMOST) Route and if we have an error
     // EVEN in some deeply NESTED route, it will BUBBLE UP to the ROOT Route
     <Route path="/" element={<RootLayout />} errorElement={<Error />}>
-      {/* STEP 7:
+      {/* switch-to-v6.4-STEP 7:
        - add an 'INDEX' attribute to one of the NESTED Routes to render
        a component (page) by default */}
       <Route index element={<WelcomePage />} />
       <Route path="/blog" element={<BlogLayout />}>
-        {/* STEP 3:
+        {/* switch-to-v6.4-STEP 3:
              - we add our previously declared and exported 'loader' function to
              the new 'loader' attribute of <Route/> component */}
         {/* When React Router evaluates this Route it will (1)call the provided loader
              function and (2)make the data returned from this function available to the
              rendered component (see the next step in BlogPostsPage.jsx ) */}
-        <Route index element={<BlogPostsPage />} loader={blogPostsLoader} />
+        {/* <Route index element={<BlogPostsPage />} loader={blogPostsLoader} /> */}
+        {/* here we are simulating a slow network request with a loader which
+         has sleep(2000) under the hood to postpone the actual request sending.
+         As we know React Router WILL NOT REDIRECT until loader finished */}
+        <Route index element={<DeferredBlogPosts />} loader={slowPostsLoader} />
         <Route path=":id" element={<PostDetailPage />} loader={postLoader} />
       </Route>
-      <Route path="/blog/new" element={<NewPostPage />} />
+      {/* when we submit a form inside <NewPostForm/> component,
+       this Route will match with what was defined as (1)'action' prop of the form
+       and call the function which we pass to (2)'action' prop of the <Route/> component.
+        So we basically have 2 similarly named props BUT they expect completely
+        DIFFERENT values:
+         - 'action' of <Form/> expects a STRING (relative path)
+         - 'action' of <Route/> expects a FUNCTION which will do
+          the main work on form submission */}
+      <Route
+        path="/blog/new"
+        element={<NewPostPage />}
+        action={newPostAction}
+      />
     </Route>,
   ),
 );
 
 function App() {
-  // STEP 8:
+  // switch-to-v6.4-STEP 8:
   // - instead of having Routes tree here and using <BrowserRouter/>,
   // we now just use a special component for working with new React Router Data API:
   // <RouterProvider />
