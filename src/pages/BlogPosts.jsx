@@ -10,7 +10,8 @@ function BlogPostsPage() {
   // defined for the current Route, we use a special hook - useLoaderData
   // And that's it! Or not??? Somehow it is not working...
   // It turns out that the 'old' <BrowserRouter> (and all others) CANNOT
-  // USE the new Data API of the Browser Router v6.4
+  // USE the new Data API of the Browser Router v6.4 (see the next step
+  // in App.jsx)
   const posts = useLoaderData();
   // this is a typical approach for showing some remote data to the user:
   // 1) we create state slices:

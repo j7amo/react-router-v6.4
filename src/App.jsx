@@ -9,6 +9,10 @@ import PostDetailPage from './pages/PostDetail';
 import RootLayout from './components/RootLayout';
 import WelcomePage from './pages/Welcome';
 
+// 5) this is the next step for switching from 'old' approach:
+// we have to use a new kind of router - data router,- which is
+// compatible with the new Data API. The whole setup of the <App/>
+// component will change COMPLETELY! (please see the next commit)
 function App() {
   return (
     <BrowserRouter>
